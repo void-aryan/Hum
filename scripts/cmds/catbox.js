@@ -8,11 +8,11 @@ module.exports = {
     name: "catbox",
     aliases: ["cb"],
     version: "1.0",
-    author: "Saimx69x",
+    author: "Christus",
     role: 0,
-    category: "utility",
-    Description: "Upload media to Catbox and return the link.",
-    guide: { en: "Reply to an image/video/file to upload it to Catbox.moe" },
+    category: "utilitaire",
+    description: "⬆️ Téléverse un média sur Catbox et retourne le lien.",
+    guide: { fr: "Réponds à une image/vidéo/fichier pour l’envoyer sur Catbox.moe" },
   },
 
   onStart: async function ({ api, event }) {
@@ -20,7 +20,7 @@ module.exports = {
     const attachmentUrl = attachment?.url;
 
     if (!attachmentUrl) {
-      return api.sendMessage("❌ Please reply to a media file to upload.", event.threadID, event.messageID);
+      return api.sendMessage("❌ Merci de répondre à un fichier média pour le téléverser.", event.threadID, event.messageID);
     }
 
     const ext = path.extname(attachmentUrl.split("?")[0]) || ".bin";
@@ -42,11 +42,11 @@ module.exports = {
         });
 
         api.setMessageReaction("✅", event.messageID, () => {}, true);
-        api.sendMessage(data, event.threadID, event.messageID);
+        api.sendMessage(`✅ Téléversement réussi ! Voici ton lien :\n${data}`, event.threadID, event.messageID);
       } catch (err) {
-        console.error("Upload error:", err.message);
+        console.error("Erreur de téléversement :", err.message);
         api.setMessageReaction("❌", event.messageID, () => {}, true);
-        api.sendMessage("❌ Upload failed. File may not be supported.", event.threadID, event.messageID);
+        api.sendMessage("❌ Échec du téléversement. Le fichier n’est peut-être pas supporté.", event.threadID, event.messageID);
       }
     }, true);
   }
