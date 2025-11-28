@@ -5,18 +5,18 @@ const path = require("path");
 module.exports = {
   config: {
     name: "dog",
-    author: "Saimx69x",
+    author: "Christus",
     category: "image",
     version: "1.0",
     role: 0,
-    shortDescription: { en: "🐶 Send a random dog image" },
-    longDescription: { en: "Fetches a random dog image." },
-    guide: { en: "{p}{n} — Shows a random dog image" }
+    shortDescription: { fr: "🐶 Envoie une image aléatoire de chien" },
+    longDescription: { fr: "Récupère et envoie une image de chien aléatoire." },
+    guide: { fr: "{p}{n} — Affiche une image aléatoire de chien" }
   },
 
   onStart: async function({ api, event }) {
     try {
-      const apiUrl = "https://xsaim8x-xxx-api.onrender.com/api/dog"; // তোমার API
+      const apiUrl = "https://xsaim8x-xxx-api.onrender.com/api/dog"; // API chien
 
       const response = await axios.get(apiUrl, { responseType: "arraybuffer" });
       const buffer = Buffer.from(response.data, "binary");
@@ -26,12 +26,11 @@ module.exports = {
 
       await api.sendMessage(
         {
-          body: "🐶 Here's a random dog for you!",
+          body: "🐶 Voici un chien aléatoire pour toi !",
           attachment: fs.createReadStream(tempPath)
         },
         event.threadID,
         () => {
-          
           fs.unlinkSync(tempPath);
         },
         event.messageID
@@ -39,7 +38,7 @@ module.exports = {
 
     } catch (err) {
       console.error(err);
-      api.sendMessage("❌ Failed to fetch dog image.\n" + err.message, event.threadID, event.messageID);
+      api.sendMessage("❌ Impossible de récupérer l'image du chien.\n" + err.message, event.threadID, event.messageID);
     }
   }
 };
