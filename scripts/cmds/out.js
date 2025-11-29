@@ -3,15 +3,15 @@ module.exports = {
     name: "out",
     aliases: ["leave"],
     version: "1.0",
-    author: "Saimx69x",
+    author: "Christus",
     countDown: 5,
     role: 3,
     shortDescription: {
-      en: "Bot leaves the group",
+      en: "Le bot quitte le groupe",
     },
     category: "owner",
     guide: {
-      en: "{pn} — Make bot leave from this group"
+      en: "{pn} — Faire quitter le bot de ce groupe"
     }
   },
 
@@ -19,7 +19,7 @@ module.exports = {
     try {
 
       await api.sendMessage(
-        "😢 𝘖𝘬𝘢𝘺, 𝘐'𝘮 𝘭𝘦𝘢𝘷𝘪𝘯𝘨 𝘵𝘩𝘪𝘴 𝘨𝘳𝘰𝘶𝘱...\n💌 𝘛𝘢𝘬𝘦 𝘤𝘢𝘳𝘦 𝘦𝘷𝘦𝘳𝘺𝘰𝘯𝘦 💖",
+        "😢 D'accord, je quitte ce groupe...\n💌 Prenez soin de vous tous 💖",
         event.threadID
       );
 
@@ -28,7 +28,7 @@ module.exports = {
       }, 500);
     } catch (err) {
       console.error(err);
-      api.sendMessage("❌ Failed to leave the group.", event.threadID);
+      api.sendMessage("❌ Impossible de quitter le groupe.", event.threadID);
     }
   }
 };
