@@ -6,68 +6,65 @@ module.exports = {
   countDown: 5,
   role: 2,
   shortDescription: {
-   vi: "Bảng điều khiển cài đặt bot",
-   en: "Bot configuration panel"
+   fr: "Panneau de configuration du bot"
   },
   longDescription: {
-   vi: "Bảng điều khiển cài đặt và quản lý bot",
-   en: "Configuration and management panel for the bot"
+   fr: "Panneau de configuration et de gestion du bot"
   },
   category: "admin",
   guide: {
-   vi: "Gửi lệnh để xem bảng điều khiển",
-   en: "Send command to view control panel"
+   fr: "Envoyez la commande pour voir le panneau de contrôle"
   }
  },
 
  langs: {
-  en: {
-   panelTitle: "🛠 | Bot Configuration Panel | 🛠",
-   settingsTitle: "📁 SETTINGS MANAGEMENT",
-   activityTitle: "⚙️ ACTIVITY MANAGEMENT",
-   option1: "🥇 ➊ Prefix",
-   option2: "🤖 ➋ Bot Name",
-   option3: "🧑‍💼 ➌ Admin List",
-   option4: "🌐 ➍ Language",
-   option5: "🔁 ➎ Auto-Restart",
-   option6: "🆙 ➏ Check Updates",
-   option7: "👤 ➐ Banned Users",
-   option8: "👥 ➑ Banned Groups",
-   option9: "📢 ➒ Send Announcement to All",
-   option10: "🔍 🔟 Find UID by Name",
-   option11: "🧭 ⓫ Find Group ID by Name",
-   option12: "🎭 ⓬ Change Group Emoji",
-   option13: "📝 ⓭ Change Group Name",
-   option14: "📊 ⓮ View Group Info",
-   selectPrompt: "Reply with the number to choose option",
-   autoRestart: "🔁 Bot will auto-restart at 12:00 PM daily",
-   currentVersion: "📦 Current version: ",
-   bannedUsers: "🔒 %1 users banned\n\n%2",
-   bannedThreads: "🚫 %1 groups banned\n\n%2",
-   announcementPrompt: "📢 Reply with the message to send to all groups",
-   findUidPrompt: "🔍 Reply with the username to find UID",
-   findThreadPrompt: "🧭 Reply with the group name to find ID",
-   emojiPrompt: "🎭 Reply with the new emoji",
-   namePrompt: "📝 Reply with the new group name",
-   announcementSent: "✅ Sent to: %1 groups\n❌ Failed: %2 groups",
-   threadInfo: "📊 Group Info:\n\n✨ Name: %1\n🆔 ID: %2\n👀 Approval: %3\n🎭 Emoji: %4\n👥 Members: %5\n👨 Male: %6\n👩 Female: %7\n🛡️ Admins: %8\n💬 Total messages: %9",
-   noResult: "❌ No matching result found"
+  fr: {
+   panelTitle: "🛠 | Panneau de Configuration du Bot | 🛠",
+   settingsTitle: "📁 GESTION DES PARAMÈTRES",
+   activityTitle: "⚙️ GESTION DES ACTIVITÉS",
+   option1: "🥇 ➊ Préfixe",
+   option2: "🤖 ➋ Nom du Bot",
+   option3: "🧑‍💼 ➌ Liste des Admins",
+   option4: "🌐 Langue",
+   option5: "🔁 Redémarrage Auto",
+   option6: "🆙 Vérifier les Mises à Jour",
+   option7: "👤 Utilisateurs Bannis",
+   option8: "👥 Groupes Bannís",
+   option9: "📢 Envoyer un Annonce à Tous",
+   option10: "🔍 🔟 Trouver UID par Nom",
+   option11: "🧭 ⓫ Trouver ID du Groupe par Nom",
+   option12: "🎭 ⓬ Changer l’Émoji du Groupe",
+   option13: "📝 ⓭ Changer le Nom du Groupe",
+   option14: "📊 ⓮ Voir les Infos du Groupe",
+   selectPrompt: "Répondez avec le numéro pour choisir une option",
+   autoRestart: "🔁 Le bot redémarrera automatiquement tous les jours à 12h00",
+   currentVersion: "📦 Version actuelle : ",
+   bannedUsers: "🔒 %1 utilisateurs bannis\n\n%2",
+   bannedThreads: "🚫 %1 groupes bannis\n\n%2",
+   announcementPrompt: "📢 Répondez avec le message à envoyer à tous les groupes",
+   findUidPrompt: "🔍 Répondez avec le nom d’utilisateur pour trouver l’UID",
+   findThreadPrompt: "🧭 Répondez avec le nom du groupe pour trouver l’ID",
+   emojiPrompt: "🎭 Répondez avec le nouvel émoji",
+   namePrompt: "📝 Répondez avec le nouveau nom du groupe",
+   announcementSent: "✅ Envoyé à : %1 groupes\n❌ Échec : %2 groupes",
+   threadInfo: "📊 Infos du Groupe :\n\n✨ Nom : %1\n🆔 ID : %2\n👀 Approbation : %3\n🎭 Émoji : %4\n👥 Membres : %5\n👨 Hommes : %6\n👩 Femmes : %7\n🛡️ Admins : %8\n💬 Total messages : %9",
+   noResult: "❌ Aucun résultat correspondant trouvé"
   }
  },
 
  onStart: async function ({ message, event, args, getLang }) {
   if (!args[0]) {
    const panelMessage = [
-    "╔🛠️ 𝗕𝗢𝗧 𝗖𝗢𝗡𝗧𝗥𝗢𝗟 𝗣𝗔𝗡𝗘𝗟 🛠️╗",
+    "╔🛠️ 𝗣𝗔𝗡𝗡𝗘𝗔𝗨 𝗗𝗘 𝗖𝗢𝗡𝗧𝗥𝗢𝗟 𝗗𝗨 𝗕𝗢𝗧 🛠️╗",
     "║",
-    `║ 📁 𝗦𝗘𝗧𝗧𝗜𝗡𝗚𝗦 𝗠𝗔𝗡𝗔𝗚𝗘𝗠𝗘𝗡𝗧`,
+    `║ 📁 GESTION DES PARAMÈTRES`,
     `║ ${getLang("option1")}`,
     `║ ${getLang("option2")}`,
     `║ ${getLang("option3")}`,
     `║ ${getLang("option4")}`,
     `║ ${getLang("option5")}`,
     "║",
-    `║ ⚙️ 𝗔𝗖𝗧𝗜𝗩𝗜𝗧𝗬 𝗠𝗔𝗡𝗔𝗚𝗘𝗠𝗘𝗡𝗧`,
+    `║ ⚙️ GESTION DES ACTIVITÉS`,
     `║ ${getLang("option6")}`,
     `║ ${getLang("option7")}`,
     `║ ${getLang("option8")}`,
@@ -101,9 +98,9 @@ module.exports = {
    case "choose":
     switch (choice) {
      case "1":
-      return message.reply(`📌 Bot Prefix: ${global.GoatBot.config.prefix}`);
+      return message.reply(`📌 Préfixe du Bot : ${global.GoatBot.config.prefix}`);
      case "2":
-      return message.reply(`🤖 Bot Name: ${global.GoatBot.config.botName}`);
+      return message.reply(`🤖 Nom du Bot : ${global.GoatBot.config.botName}`);
      case "3": {
       const adminList = await Promise.all(global.GoatBot.config.adminBot.map(async id => {
        const name = await usersData.getName(id);
@@ -112,7 +109,7 @@ module.exports = {
       return message.reply(`🛡️ Admins:\n\n${adminList.join("\n")}`);
      }
      case "4":
-      return message.reply(`🌐 Language: ${global.GoatBot.config.language}`);
+      return message.reply(`🌐 Langue : ${global.GoatBot.config.language}`);
      case "5":
       return message.reply(getLang("autoRestart"));
      case "6":
@@ -121,7 +118,7 @@ module.exports = {
       const bannedUsers = global.GoatBot.bannedUsers;
       const list = await Promise.all([...bannedUsers.entries()].map(async ([id, reason], i) => {
        const name = await usersData.getName(id);
-       return `${i + 1}. ${name} (${id})\n🚫 Reason: ${reason}`;
+       return `${i + 1}. ${name} (${id})\n🚫 Raison : ${reason}`;
       }));
       return message.reply(getLang("bannedUsers", bannedUsers.size, list.join("\n\n")));
      }
@@ -129,7 +126,7 @@ module.exports = {
       const bannedThreads = global.GoatBot.bannedThreads;
       const list = await Promise.all([...bannedThreads.entries()].map(async ([id, reason], i) => {
        const thread = await threadsData.get(id);
-       return `${i + 1}. ${thread.threadName} (${id})\n🚫 Reason: ${reason}`;
+       return `${i + 1}. ${thread.threadName} (${id})\n🚫 Raison : ${reason}`;
       }));
       return message.reply(getLang("bannedThreads", bannedThreads.size, list.join("\n\n")));
      }
@@ -186,7 +183,7 @@ module.exports = {
       return message.reply(getLang("threadInfo",
        thread.threadName,
        thread.threadID,
-       thread.approvalMode ? "On" : "Off",
+       thread.approvalMode ? "Activé" : "Désactivé",
        thread.emoji,
        thread.members.length,
        male,
@@ -207,7 +204,7 @@ module.exports = {
     for (const thread of threads) {
      if (thread.threadID === event.threadID) continue;
      try {
-      await message.send(`📢 Announcement from admin ${name}:\n\n${event.body}`, thread.threadID);
+      await message.send(`📢 Annonce de l'admin ${name}:\n\n${event.body}`, thread.threadID);
       success++;
       await new Promise(res => setTimeout(res, 300));
      } catch {
@@ -246,17 +243,17 @@ module.exports = {
    case "changeEmoji":
     try {
      await api.changeThreadEmoji(event.body, event.threadID);
-     return message.reply(`🎭 Emoji updated to: ${event.body}`);
+     return message.reply(`🎭 Émoji mis à jour : ${event.body}`);
     } catch {
-     return message.reply("❌ Failed to update emoji");
+     return message.reply("❌ Échec de la mise à jour de l’émoji");
     }
 
    case "changeName":
     try {
      await api.setTitle(event.body, event.threadID);
-     return message.reply(`📝 Group name changed to: ${event.body}`);
+     return message.reply(`📝 Nom du groupe changé en : ${event.body}`);
     } catch {
-     return message.reply("❌ Failed to change name");
+     return message.reply("❌ Échec du changement de nom");
     }
   }
  }
