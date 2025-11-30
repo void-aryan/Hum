@@ -4,7 +4,7 @@ module.exports = {
     version: "3.1",
     author: "Christus",
     countDown: 5,
-    role: 0,
+    role: 2,
     dev: true,
     shortDescription: "Rejoindre un groupe dans lequel le bot est présent",
     longDescription: "Liste paginée des groupes, répondre avec un numéro pour rejoindre, supporte le passage direct à une page ou suivant/précédent.",
