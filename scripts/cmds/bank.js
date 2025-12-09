@@ -203,7 +203,7 @@ function roundRect(ctx, x, y, width, height, radius) {
 
 module.exports = {
         config: {
-                name: "bank",
+                name: "bank2",
                 version: "3.0.0",
                 author: "Christus",
                 countDown: 10,
