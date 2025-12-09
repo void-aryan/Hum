@@ -5,8 +5,8 @@ const axios = require("axios");
 
 module.exports = {
   config: {
-    name: "balance",
-    aliases: ["bal", "$", "cash"],
+    name: "balance2",
+    aliases: ["bal2"],
     version: "5.1",
     author: "Christus",
     countDown: 3,
