@@ -1,64 +1,116 @@
-const a = require("axios");
-const f = require("fs");
-const p = require("path");
+const axios = require('axios');
+const fs = require('fs-extra'); 
+const path = require('path');
+const stream = require('stream');
+const { promisify } = require('util');
 
-const u = "http://65.109.80.126:20409/aryan/4k";
+const pipeline = promisify(stream.pipeline);
+const API_ENDPOINT = "https://free-goat-api.onrender.com/4k"; 
+const CACHE_DIR = path.join(__dirname, 'cache');
+
+function extractImageUrl(args, event) {
+    let imageUrl = args.find(arg => arg.startsWith('http'));
+
+    if (!imageUrl && event.messageReply && event.messageReply.attachments && event.messageReply.attachments.length > 0) {
+        const imageAttachment = event.messageReply.attachments.find(att => att.type === 'photo' || att.type === 'image');
+        if (imageAttachment && imageAttachment.url) {
+            imageUrl = imageAttachment.url;
+        }
+    }
+    return imageUrl;
+}
 
 module.exports = {
   config: {
     name: "4k",
-    aliases: ["upscale"],
-    version: "1.1",
-    role: 0,
+    aliases: ["upscale", "hd", "enhance"],
+    version: "1.0",
     author: "Christus",
-    countDown: 10,
-    longDescription: "Améliore une image en résolution 4K.",
+    countDown: 15,
+    role: 0,
+    longDescription: "Upscales an image to higher resolution (simulated 4K) using AI.",
     category: "image",
     guide: {
-      en: "${pn} répondre à une image pour l'améliorer en 4K."
+      en: 
+        "{pn} <image_url> OR reply to an image.\n\n" +
+        "• Example: {pn} https://example.com/lowres.jpg"
     }
   },
 
-  onStart: async function ({ message, event }) {
-    if (
-      !event.messageReply ||
-      !event.messageReply.attachments ||
-      !event.messageReply.attachments[0] ||
-      event.messageReply.attachments[0].type !== "photo"
-    ) {
-      return message.reply("📸 Veuillez répondre à une image pour l'améliorer.");
+  onStart: async function ({ args, message, event }) {
+    
+    // Get the image URL from arguments or a replied message
+    const imageUrl = extractImageUrl(args, event);
+
+    if (!imageUrl) {
+      return message.reply("❌ Please provide an image URL or reply to an image to upscale.");
     }
 
-    const i = event.messageReply.attachments[0].url;
-    const t = p.join(__dirname, "cache", `upscaled_${Date.now()}.png`);
-    let m;
+    if (!fs.existsSync(CACHE_DIR)) {
+        fs.mkdirSync(CACHE_DIR, { recursive: true });
+    }
+
+    message.reaction("⏳", event.messageID);
+    let tempFilePath; 
 
     try {
-      const r = await message.reply("🔄 Traitement de votre image, veuillez patienter...");
-      m = r.messageID;
+      // 1. Construct the API URL
+      const fullApiUrl = `${API_ENDPOINT}?url=${encodeURIComponent(imageUrl)}`;
+      
+      // 2. Call the API to get the upscaled image URL
+      const apiResponse = await axios.get(fullApiUrl, { timeout: 45000 });
+      const data = apiResponse.data;
 
-      const d = await a.get(`${u}?imageUrl=${encodeURIComponent(i)}`);
-      if (!d.data.status) throw new Error(d.data.message || "Erreur API");
+      if (!data.image) {
+        throw new Error("API returned success but missing final image URL.");
+      }
 
-      const x = await a.get(d.data.enhancedImageUrl, { responseType: "stream" });
-      const w = f.createWriteStream(t);
-      x.data.pipe(w);
+      const upscaledImageUrl = data.image;
 
-      await new Promise((res, rej) => {
-        w.on("finish", res);
-        w.on("error", rej);
+      // 3. Download the upscaled image stream
+      const imageDownloadResponse = await axios.get(upscaledImageUrl, {
+          responseType: 'stream',
+          timeout: 60000,
       });
+      
+      // 4. Save the stream to a temporary file
+      const fileHash = Date.now() + Math.random().toString(36).substring(2, 8);
+      tempFilePath = path.join(CACHE_DIR, `upscale_4k_${fileHash}.jpg`);
+      
+      await pipeline(imageDownloadResponse.data, fs.createWriteStream(tempFilePath));
 
+      message.reaction("✅", event.messageID);
+      
+      // 5. Reply with the final image
       await message.reply({
-        body: "✅ Votre image améliorée en 4K est prête !",
-        attachment: f.createReadStream(t),
+        body: `🖼️ Image successfully upscaled to 4K!`,
+        attachment: fs.createReadStream(tempFilePath)
       });
-    } catch (e) {
-      console.error("Upscale Error:", e);
-      message.reply("❌ Une erreur est survenue lors de l'amélioration de l'image. Veuillez réessayer plus tard.");
+
+    } catch (error) {
+      message.reaction("❌", event.messageID);
+      
+      let errorMessage = "❌ Failed to upscale image. An error occurred.";
+      if (error.response) {
+         if (error.response.status === 400) {
+             errorMessage = `❌ Error 400: The provided URL might be invalid or the image is too small/large.`;
+         } else {
+             errorMessage = `❌ HTTP Error ${error.response.status}. The API may be unavailable.`;
+         }
+      } else if (error.message.includes('timeout')) {
+         errorMessage = `❌ Request timed out (API response too slow).`;
+      } else if (error.message) {
+         errorMessage = `❌ ${error.message}`;
+      }
+
+      console.error("4K Upscale Command Error:", error);
+      message.reply(errorMessage);
+
     } finally {
-      if (m) message.unsend(m);
-      if (f.existsSync(t)) f.unlinkSync(t);
+      // Clean up the temporary file
+      if (tempFilePath && fs.existsSync(tempFilePath)) {
+          fs.unlinkSync(tempFilePath);
+      }
     }
   }
 };
