@@ -2,8 +2,8 @@ const axios = require("axios");
 
 module.exports = {
   config: {
-    name: "4o",
-    aliases: ["gpt4o", "dalle4o"],
+    name: "4ogen",
+    aliases: ["gpt4ogen", "dalle4o"],
     version: "1.0",
     author: "Christus", //API by RIFAT
     countDown: 10,
